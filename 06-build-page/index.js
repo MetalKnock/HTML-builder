@@ -131,7 +131,8 @@ async function styleBundler(pathStyles, pathBundle, nameBundle) {
           path.join(pathStyles, file.name),
           "utf-8"
         );
-        stream.pipe(output);
+        stream.on("data", (chunk) => output.write(`${chunk}\n`));
+        stream.on("error", (error) => console.log("Error", error.message));
       }
     }
   }
